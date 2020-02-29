@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Remote Control UI - Prometeus</title>
+    <script src="./App_Theme/Scripts/vue.min.js"></script>
+    <script src="./App_Theme/Scripts/Code.js"></script>
+    <link rel="stylesheet" type="text/css" href="./App_Theme/css/AppTheme.css" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="./App_Theme/css/all.css" rel="stylesheet">
+</head>
+<body>
+    <div id="components-remote" class="mainContainer">
+        <div class="cabecera">
+            <h1>Proyecto de Aula</h1>
+            <span>Grupo: Prometheus</span>
+        </div>
+        <span class="title">Control Remoto</span>
+        <div class="middle">
+
+            <div class="remoter">
+                <div class="btn btn-vol-up">
+                    <div class="icon">
+                        <i class="fas fa-angle-double-up"></i>
+                    </div>
+                </div>
+                <div class="btn btn-prev">
+                    <div class="icon">
+                        <i class="fas fa-angle-double-left"></i>
+                    </div>
+                </div>
+                <div class="btn btn-next">
+                    <div class="icon">
+                        <i class="fas fa-angle-double-right"></i>
+                    </div>
+                </div>
+                <div class="btn btn-repeat">
+                    <div class="icon">STOP</div>
+                </div>
+                <div class="btn btn-pause">
+                    <div class="icon"></div>
+                </div>
+                <div class="btn btn-vol-down">
+                    <div class="icon">
+                        <i class="fas fa-angle-double-down"></i>
+                    </div>
+                </div>
+                <label class="vol-label">ON/OFF</label>
+            </div>
+        </div>
+        <button-counter></button-counter>
+    </div>
+    <script type="text/javascript">
+        new Vue({ el: '#components-remote' })
+    </script>
+</body>
+</html>
