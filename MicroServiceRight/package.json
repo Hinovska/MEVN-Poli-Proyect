@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "reset": "firmata-party uno --debug"
+    "reset": "firmata-party uno --debug",
+    "unlock": "sudo fuser -k -n tcp 5006"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -19,6 +20,7 @@
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.4",
     "morgan": "~1.9.1",
+    "mqtt": "^3.0.0",
     "nodemon": "^2.0.2"
   },
   "main": "app.js",

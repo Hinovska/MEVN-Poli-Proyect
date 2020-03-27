@@ -29,8 +29,8 @@ app.use('/', indexRouter);
 app.use('/reports', reportsRouter);
 app.use('/contact', contactRouter);
 app.use('/graphql', graphqlRouter);
-app.use('/move/front', frontRouter);
-app.use('/move/stop', stopRouter);
+app.use('/move', frontRouter);
+app.use('/stop', stopRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -44,4 +44,4 @@ let fnBucle = () => {
   led2speed = maxSpeed;
   fnRun(led1speed, led2speed);
 };
-let fnInit = () => {myLed.strobe(10); myLedAux.strobe(200);};
+let fnInit = () => {myLed.strobe(10); myLedAux.strobe(200);}

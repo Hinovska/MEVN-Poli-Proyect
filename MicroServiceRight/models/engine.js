@@ -1,56 +1,31 @@
 const {Board, Led} = require('johnny-five');
 const MongoClient = require('mongodb').MongoClient;
-
 const mongoose = require('mongoose');
+const mqtt = require("mqtt");
 
 function ModelEngine(){
   let self = this;
-  self.myBoard;
-  self.myLedFront;
-  self.myLedBackward;
-  self.myLedLeft;
-  self.myLedRight;
   self.currentDir;
   self.direcctions = ['right'];
-  self.myBoard = new Board();
-  self.myBoard.on('ready', () =>{
-    self.myLedFront = new Led(9);
-    self.myLedBackward = new Led(12);
-    self.myLedLeft = new Led(11);
-    self.myLedRight = new Led(10);
-    if (self.fnInit()){
-      self.myBoard.repl.inject({
-        move: self.fnChangeDirection,
-        stop: self.fnStop
-      });
-    }
-  });
-  self.myBoard.on('error', (err) => {
-    console.log(err);
-  });
   self.fnStop = () => {
     let result = {status:'OK',message:'Stoped'};
-    self.myLedFront.off();
-    self.myLedBackward.off();
-    self.myLedLeft.off();
-    self.myLedRight.off();
+    self.AgentMqtt.Send('Move',"Stop");
     return result;
   };
   self.fnChangeDirection = (toDirection) => {
     let result = {status:'OK',message:'Moving to ' + toDirection };
-    self.fnStop();
     switch (toDirection) {
       case 'front':
-        self.myLedFront.on();
+        self.AgentMqtt.Send('Move',toDirection);
         break;
       case 'backward':
-        self.myLedBackward.on();
+        self.AgentMqtt.Send('Move',toDirection);
         break;
       case 'left':
-        self.myLedLeft.on();
+        self.AgentMqtt.Send('Move',toDirection);
         break;
       case 'right':
-        self.myLedRight.on();
+        self.AgentMqtt.Send('Move',toDirection);
         break;
       default:
         result.status = 'Fail';
@@ -66,49 +41,44 @@ function ModelEngine(){
     });
     console.log(self.fnStop());
     console.log('Finish Test Engine');
-    //self.dbTeam();
-    //self.dbAgent().catch(console.error);
     return true;
   };
-  self.fnInit = () => {return self.fnTestMoves()};
-  self.dbAgent = async function fndbAgent(){
-    console.log("Call dbAgent");
-      /**
-       * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-       * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-       */
-      const uri = "mongodb+srv://PrometheusApp:Poli123@prometheusteam-oabpa.gcp.mongodb.net/test?retryWrites=true&w=majority";
-      //mongodb+srv://<username>:<password>@cluster0-jsape.mongodb.net/test
-      const client = new MongoClient(uri);
-      try {
-          console.log(client);
-          // Connect to the MongoDB cluster
-          await client.connect();
-          // Make the appropriate DB calls
-          await self.ListBD(client);
-      } catch (e) {
-          //console.log("Call dbAgent Error");
-          console.error(e);
-      } finally {
-          await client.close();
-      }
-  };
-  self.ListBD = async function fnListBD(client){
-      console.log("Call ListBD");
-      databasesList = await client.db().admin().listDatabases();
-      console.log("Databases:");
-      databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-  };
-  self.dbTeam = function fndbTeam (){
-    const uri = "mongodb+srv://PrometheusApp:Poli123@prometheusteam-oabpa.gcp.mongodb.net/test?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, { useNewUrlParser: true });
-    client.connect(err => {
-      const collection = client.db("test").collection("devices");
-      // perform actions on the collection object
-      client.close();
-    });
-    console.log("Call dbTeam");
+  self.fnInit = () => {return self.AgentMqtt.Init() && self.fnTestMoves()};
+  self.AgentMqtt = {
+    mqtt_client: null,
+    WebSocket_URL : 'ws://35.198.1.82:8083/mqtt',
+    options : {
+        connectTimeout:4000,
+        clientId:'MSRight',
+        keepalive:60,
+        clean:true,
+    },
+    Init : function (){
+      self.AgentMqtt.mqtt_client = mqtt.connect(self.AgentMqtt.WebSocket_URL, self.AgentMqtt.options);
+      self.AgentMqtt.mqtt_client.on('connect', () => {
+          ///qos Calidad de entrega Mensaje (0 )
+          self.AgentMqtt.mqtt_client.subscribe('Response', { qos: 0 }, (error) => {
+              if (!error) {
+                  console.log('Mqtt conectado por ws - Done');
+              }
+              else{
+                  console.log('Mqtt conectado por ws - Fail');
+              }
+          });
+      });
+      self.AgentMqtt.mqtt_client.on('message', (topic, message) => {
+        console.log('mensaje recibido:', topic, '->', message.toString());
+      });
+      return true;
+    },
+    Send: function(topic, message){
+      self.AgentMqtt.mqtt_client.publish(topic, message, (error) => {
+          console.log(error || 'Enviado a Broker: ',  topic , '->' , message);
+      });
+    }
   };
 };
 
-exports = module.exports = new ModelEngine();
+var model =  new ModelEngine();
+model.fnInit();
+exports = module.exports = model;
