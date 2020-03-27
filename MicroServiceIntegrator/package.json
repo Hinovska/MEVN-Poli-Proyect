@@ -1,0 +1,24 @@
+{
+  "name": "MicroServiceIntegrator",
+  "version": "1.0.0",
+  "description": "Creacion Microservicio con Express y Nodejs",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "reset": "firmata-party uno --debug"
+  },
+  "keywords": [],
+  "author": "Andres Gomez - Prometheus Team",
+  "license": "ISC",
+  "dependencies": {
+    "firmata-party": "^2.0.0",
+    "johnny-five": "^1.4.0",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.6",
+    "mongose": "0.0.2-security",
+    "morgan": "^1.10.0",
+    "mqtt": "^3.0.0",
+    "nodejs": "0.0.0",
+    "nodemon": "^2.0.2"
+  }
+}
