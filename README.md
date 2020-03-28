@@ -4,7 +4,7 @@ Repositorio para proyecto de aula de materia Arquitectura de Computadores - Ing 
 Creacion de Multiples Sistemas integrados para mover robot mediante señales mioelectricas y/o App Flutter
 
 
-#Prometheus Team
+# Prometheus Team
 - Andres Gomez
 - Juan Barbosa
 - Mauricio Martinez
