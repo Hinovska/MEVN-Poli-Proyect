@@ -57,7 +57,15 @@ function ModelAgent(){
       self.AgentMqtt.mqtt_client = mqtt.connect(self.AgentMqtt.WebSocket_URL, self.AgentMqtt.options);
       self.AgentMqtt.mqtt_client.on('connect', () => {
           ///qos Calidad de entrega Mensaje (0 )
-          self.AgentMqtt.mqtt_client.subscribe('Move', { qos: 0 }, (error) => {
+          self.AgentMqtt.mqtt_client.subscribe('EMGcar/Move', { qos: 0 }, (error) => {
+              if (!error) {
+                  console.log('Mqtt conectado por ws - Done');
+              }
+              else{
+                  console.log('Mqtt conectado por ws - Fail');
+              }
+          });
+          self.AgentMqtt.mqtt_client.subscribe('EMGcar/NODE', { qos: 0 }, (error) => {
               if (!error) {
                   console.log('Mqtt conectado por ws - Done');
               }
@@ -68,13 +76,16 @@ function ModelAgent(){
           //self.AgentMqtt.Send('Log','conexion broker exitosa');
       });
       self.AgentMqtt.mqtt_client.on('message', (topic, message) => {
-        if (topic == "Move"){
+        if (topic == "EMGcar/Move"){
           var response = engineMoves.fnChangeDirection(message.toString());
           if (response.status == "OK"){
             self.AgentMqtt.Send("Response", response.message);
           }
+          console.log('mensaje recibido:', topic, '->', message.toString());
         }
-        console.log('mensaje recibido:', topic, '->', message.toString());
+        else if (topic == "EMGcar/NODE"){
+          console.log('mensaje recibido EMGcar/NODE:', topic, '->', message.toString());
+        }  
       });
       return true;
     },
