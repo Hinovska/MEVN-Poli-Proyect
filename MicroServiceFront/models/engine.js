@@ -1,56 +1,30 @@
-const {Board, Led} = require('johnny-five');
+const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
+const mqtt = require("mqtt");
 
 function ModelEngine(){
   let self = this;
-  self.myBoard;
-  self.myLedFront;
-  self.myLedBackward;
-  self.myLedLeft;
-  self.myLedRight;
   self.currentDir;
   self.direcctions = ['front'];
-  self.myBoard = new Board();
-  self.myBoard.on('ready', () =>{
-    self.myLedFront = new Led(9);
-    self.myLedBackward = new Led(12);
-    self.myLedLeft = new Led(11);
-    self.myLedRight = new Led(10);
-    if (self.fnInit()){
-      self.myBoard.repl.inject({
-        move: self.fnChangeDirection,
-        stop: self.fnStop
-      });
-    }
-  });
-
-  self.myBoard.on('error', (err) => {
-    console.log(err);
-  });
-
   self.fnStop = () => {
     let result = {status:'OK',message:'Stoped'};
-    self.myLedFront.off();
-    self.myLedBackward.off();
-    self.myLedLeft.off();
-    self.myLedRight.off();
+    self.AgentMqtt.Send('EMGcar/Move',"Stop");
     return result;
   };
-
   self.fnChangeDirection = (toDirection) => {
     let result = {status:'OK',message:'Moving to ' + toDirection };
-    self.fnStop();
     switch (toDirection) {
       case 'front':
-        self.myLedFront.on();
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       case 'backward':
-        self.myLedBackward.on();
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       case 'left':
-        self.myLedLeft.on();
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       case 'right':
-        self.myLedRight.on();
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       default:
         result.status = 'Fail';
@@ -68,7 +42,42 @@ function ModelEngine(){
     console.log('Finish Test Engine');
     return true;
   };
-  self.fnInit = () => {return self.fnTestMoves();};
+  self.fnInit = () => {return self.AgentMqtt.Init() && self.fnTestMoves()};
+  self.AgentMqtt = {
+    mqtt_client: null,
+    WebSocket_URL : 'ws://35.198.1.82:8083/mqtt',
+    options : {
+        connectTimeout:4000,
+        clientId:'MSFront',
+        keepalive:60,
+        clean:true,
+    },
+    Init : function (){
+      self.AgentMqtt.mqtt_client = mqtt.connect(self.AgentMqtt.WebSocket_URL, self.AgentMqtt.options);
+      self.AgentMqtt.mqtt_client.on('connect', () => {
+          ///qos Calidad de entrega Mensaje (0 )
+          self.AgentMqtt.mqtt_client.subscribe('Response', { qos: 0 }, (error) => {
+              if (!error) {
+                  console.log('Mqtt conectado por ws - Done');
+              }
+              else{
+                  console.log('Mqtt conectado por ws - Fail');
+              }
+          });
+      });
+      self.AgentMqtt.mqtt_client.on('message', (topic, message) => {
+        console.log('mensaje recibido:', topic, '->', message.toString());
+      });
+      return true;
+    },
+    Send: function(topic, message){
+      self.AgentMqtt.mqtt_client.publish(topic, message, (error) => {
+          console.log(error || 'Enviado a Broker: ',  topic , '->' , message);
+      });
+    }
+  };
 };
 
-exports = module.exports = new ModelEngine();
+var model =  new ModelEngine();
+model.fnInit();
+exports = module.exports = model;

@@ -1,4 +1,3 @@
-const {Board, Led} = require('johnny-five');
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const mqtt = require("mqtt");
@@ -9,23 +8,23 @@ function ModelEngine(){
   self.direcctions = ['right'];
   self.fnStop = () => {
     let result = {status:'OK',message:'Stoped'};
-    self.AgentMqtt.Send('Move',"Stop");
+    self.AgentMqtt.Send('EMGcar/Move',"Stop");
     return result;
   };
   self.fnChangeDirection = (toDirection) => {
     let result = {status:'OK',message:'Moving to ' + toDirection };
     switch (toDirection) {
       case 'front':
-        self.AgentMqtt.Send('Move',toDirection);
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       case 'backward':
-        self.AgentMqtt.Send('Move',toDirection);
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       case 'left':
-        self.AgentMqtt.Send('Move',toDirection);
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       case 'right':
-        self.AgentMqtt.Send('Move',toDirection);
+        self.AgentMqtt.Send('EMGcar/Move',toDirection);
         break;
       default:
         result.status = 'Fail';
