@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var reportsRouter = require('./routes/reports');
-var contactRouter = require('./routes/contact');
 
 //API para movimientos de Coche
 var backwardRouter = require('./routes/moves/backward');
@@ -26,8 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/reports', reportsRouter);
-app.use('/contact', contactRouter);
 app.use('/graphql', graphqlRouter);
 app.use('/move', backwardRouter);
 app.use('/stop', stopRouter);

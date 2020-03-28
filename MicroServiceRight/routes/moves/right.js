@@ -6,10 +6,10 @@ router.get('/', (req, res, next) => {
    var opResult = engineRouter.fnChangeDirection("right");
    if (typeof(opResult) == "object"){
      if (opResult.hasOwnProperty("status") && opResult.hasOwnProperty("message")){
-       res.render((opResult.status == "OK")? 'move' :'fail', { title: 'Moving Remote Car', direcction: opResult.message });
+       res.setHeader('Content-Type', 'application/json');
+       res.json( {'status' : ((opResult.status == "OK")? 'OK' :'Fail'), 'action': 'Moving Remote Car', 'message': opResult.message });
      }
    }
-   next();
  });
 
 module.exports = router;
