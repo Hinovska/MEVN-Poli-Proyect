@@ -68,7 +68,7 @@ function ModelEngine(){
           });
       });
       self.AgentMqtt.mqtt_client.on('message', (topic, message) => {
-        console.log('mensaje recibido:', topic, '->', message.toString());
+        console.log('Mensaje recibido:', topic, '->', message.toString());
       });
       return true;
     },
