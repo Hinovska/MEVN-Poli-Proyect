@@ -4,8 +4,8 @@ Creacion de Multiples Sistemas integrados para mover robot mediante señales mio
 
 
 #Prometheus Team
-Andres Gomez
-Juan Barbosa
-Mauricio Martinez
-Victor Sierra
+- Andres Gomez
+- Juan Barbosa
+- Mauricio Martinez
+- Victor Sierra
 
