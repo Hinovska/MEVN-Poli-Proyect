@@ -1,32 +1,20 @@
 let engineMoves = require("./models/engine");
-const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const mqtt = require("mqtt");
 
 function ModelAgent(){
   let self = this;
-  self.Init = () => {return self.AgentMqtt.Init()};
-  self.dbAgent = async function fndbAgent(){
+  self.Init = () => {
+    //self.dbAgent()
+    return self.AgentMqtt.Init();
+  };
+  self.dbAgent = function fndbAgent(){
     console.log("Call dbAgent");
-      /**
-       * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-       * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-       */
-      const uri = "mongodb+srv://PrometheusApp:Poli123@prometheusteam-oabpa.gcp.mongodb.net/Rigth?retryWrites=true&w=majority";
-      //mongodb+srv://<username>:<password>@cluster0-jsape.mongodb.net/test
-      const client = new MongoClient(uri);
-      try {
-          console.log(client);
-          // Connect to the MongoDB cluster
-          await client.connect();
-          // Make the appropriate DB calls
-          await self.ListBD(client);
-      } catch (e) {
-          //console.log("Call dbAgent Error");
-          console.error(e);
-      } finally {
-          await client.close();
-      }
+    let utlAtlas = 'mongodb+srv://politecnico:Poli123@cluster0-jsape.mongodb.net/test?retryWrites=true&w=majority';
+    mongoose.connect(utlAtlas, {useNewUrlParser: true, connectTimeoutMS:120000})
+    .then(() => console.log('connected to db'))
+    .catch(err => console.log(err));
+    return true;
   };
   self.ListBD = async function fnListBD(client){
       console.log("Call ListBD");
@@ -65,27 +53,28 @@ function ModelAgent(){
                   console.log('Mqtt conectado por ws - Fail');
               }
           });
-          self.AgentMqtt.mqtt_client.subscribe('EMGcar/NODE', { qos: 0 }, (error) => {
-              if (!error) {
-                  console.log('Mqtt conectado por ws - Done');
-              }
-              else{
-                  console.log('Mqtt conectado por ws - Fail');
-              }
-          });
+          //self.AgentMqtt.mqtt_client.subscribe('EMGcar/NODE', { qos: 0 }, (error) => {
+          //    if (!error) {
+          //        console.log('Mqtt conectado por ws - Done');
+          //    }
+          //    else{
+          //        console.log('Mqtt conectado por ws - Fail');
+          //    }
+          //});
           //self.AgentMqtt.Send('Log','conexion broker exitosa');
       });
       self.AgentMqtt.mqtt_client.on('message', (topic, message) => {
         if (topic == "EMGcar/Move"){
           var response = engineMoves.fnChangeDirection(message.toString());
+          var sServer = message.toString().toUpperCase();
           if (response.status == "OK"){
-            self.AgentMqtt.Send("Response", response.message);
+            self.AgentMqtt.Send("Response/" + sServer, response.message);
           }
           console.log('mensaje recibido:', topic, '->', message.toString());
         }
         else if (topic == "EMGcar/NODE"){
           console.log('mensaje recibido EMGcar/NODE:', topic, '->', message.toString());
-        }  
+        }
       });
       return true;
     },
