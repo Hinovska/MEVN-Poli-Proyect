@@ -7,7 +7,7 @@
     "start": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Mauricio Martinez - Prometheus Team",
+  "author": "Mauro Martinez - Prometheus Team",
   "license": "ISC",
   "description": "Archivos de Set a Arduino y/o Device EMG"
 }
