@@ -1,6 +1,7 @@
 
 /*******ASIGNACIÓN PINES PARA PLACA NodeMCU LOLIN********/
 
+
 #define ENA   D5          // Enable/speed motores Right        
 #define ENB   D6          // Enable/speed motores Left         
 #define IN_1  D8          // L298N in1 motores Right           
