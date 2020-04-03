@@ -6,6 +6,7 @@ function ModelEngine(){
   let self = this;
   self.currentDir;
   self.direcctions = ['right'];
+  self.dbOk = false;
   self.fnStop = () => {
     let result = {status:'OK',message:'Stoped'};
     self.AgentMqtt.Send('EMGcar/Move',"Stop");
@@ -43,7 +44,25 @@ function ModelEngine(){
     return true;
   };
   self.fnInit = () => {
+    self.dbOk = self.dbAgentInit();
     return self.AgentMqtt.Init() && self.fnTestMoves();
+  };
+  self.dbAgentInit = function fndbAgent(){
+    console.log("Call dbAgentInit");
+    let utlAtlas = 'mongodb+srv://politecnico:Poli123@cluster0-jsape.mongodb.net/test?retryWrites=true&w=majority';
+    mongoose.connect(utlAtlas, {useNewUrlParser: true, connectTimeoutMS:120000})
+    .then(() => {
+      result = true;
+      console.log('connected to db');
+    })
+    .catch(err =>{console.log(err);});
+    return result;
+  };
+  self.RegisterMove = (data) => {
+    //Registro en Mogo db
+    if (self.dbOk){
+      
+    }
   };
   self.AgentMqtt = {
     mqtt_client: null,
@@ -73,6 +92,8 @@ function ModelEngine(){
       return true;
     },
     Send: function(topic, message){
+      self.RegisterMove(message); //Resgistro a Mongo
+      //Envio a MQTX para ardiuno
       self.AgentMqtt.mqtt_client.publish(topic, message, (error) => {
           console.log(error || 'Enviado a Broker: ',  topic , '->' , message);
       });
