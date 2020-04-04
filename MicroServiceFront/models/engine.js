@@ -2,8 +2,11 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const mqtt = require("mqtt");
 
+const modelMove = require('./modelMove')
+
 function ModelEngine(){
   let self = this;
+  let dbOk;
   self.currentDir;
   self.direcctions = ['front'];
   self.fnStop = () => {
@@ -43,8 +46,37 @@ function ModelEngine(){
     return true;
   };
   self.fnInit = () => {
+    self.dbAgentInit();
     return self.AgentMqtt.Init() && self.fnTestMoves();
   };
+
+  /**conexion DB */
+self.dbAgentInit = function fndbAgent() {
+  let result;
+  console.log("Call dbAgentInit");
+  let utlAtlas = 'mongodb+srv://politecnico:Poli123@cluster0-jsape.mongodb.net/test?retryWrites=true&w=majority';
+  mongoose.connect(utlAtlas, { useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS: 120000 })
+    .then(() => {
+      result = true;
+      dbOk = result;
+      console.log('connected to db', result);
+    })
+    .catch(err => { console.log(err); 
+      dbOk = false;
+    });
+  return result;
+};
+
+
+/**registro a DB*/
+self.RegisterMove = (data) => {
+  if (dbOk) {
+    self.mongoDb = new modelMove({move: data});
+    self.mongoDb.save();
+    
+  }
+};
+
   self.AgentMqtt = {
     mqtt_client: null,
     WebSocket_URL : 'ws://35.198.1.82:8083/mqtt',
@@ -76,6 +108,9 @@ function ModelEngine(){
       self.AgentMqtt.mqtt_client.publish(topic, message, (error) => {
           console.log(error || 'Enviado a Broker: ',  topic , '->' , message);
       });
+
+      /**Registro a Mongo DB*/
+      self.RegisterMove(message);
     }
   };
 };

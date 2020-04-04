@@ -1,11 +1,11 @@
-let engineMoves = require("./models/engine");
+/*let engineMoves = require("./models/engine");*/
 const mongoose = require('mongoose');
 const mqtt = require("mqtt");
 
 function ModelAgent(){
   let self = this;
   self.Init = () => {
-    //self.dbAgent()
+  self.dbAgent()
     return self.AgentMqtt.Init();
   };
   self.dbAgent = function fndbAgent(){
@@ -47,18 +47,18 @@ function ModelAgent(){
           ///qos Calidad de entrega Mensaje (0 )
           self.AgentMqtt.mqtt_client.subscribe('EMGcar/Move', { qos: 0 }, (error) => {
               if (!error) {
-                  console.log('Mqtt conectado por ws - Done');
+                  console.log('Mqtt conectado por ws - Done  Topic: EMGcar/Move');
               }
               else{
-                  console.log('Mqtt conectado por ws - Fail');
+                  console.log('Mqtt conectado por ws - Fail Topic: EMGcar/Move');
               }
           });
           self.AgentMqtt.mqtt_client.subscribe('EMGcar/NODE', { qos: 0 }, (error) => {
               if (!error) {
-                  console.log('Mqtt conectado por ws - Done');
+                  console.log('Mqtt conectado por ws - Done Topic: EMGcar/NODE');
               }
               else{
-                  console.log('Mqtt conectado por ws - Fail');
+                  console.log('Mqtt conectado por ws - Fail Topic: EMGcar/NODE');
               }
           });
           //self.AgentMqtt.Send('Log','conexion broker exitosa');
@@ -66,12 +66,12 @@ function ModelAgent(){
       self.AgentMqtt.mqtt_client.on('message', (topic, message) => {
         if (topic == "EMGcar/Move"){
           console.log('Mensaje recibido EMGcar/Move:', topic, '->', message.toString());
-          var response = engineMoves.fnChangeDirection(message.toString());
-          var sServer = message.toString().toUpperCase();
-          if (response.status == "OK"){
+          /*var response = engineMoves.fnChangeDirection(message.toString());
+          var sServer = message.toString().toUpperCase();*/
+          /*if (response.status == "OK"){
             self.AgentMqtt.Send("EMGcar/ROBOTCAR", message.toString());
             self.AgentMqtt.Send("Response/" + sServer, response.message);
-          }
+          }*/
         }
         else if (topic == "EMGcar/NODE"){
           console.log('Mensaje recibido EMGcar/NODE:', topic, '->', message.toString());
