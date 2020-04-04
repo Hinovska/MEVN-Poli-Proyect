@@ -56,7 +56,7 @@ function ModelEngine() {
   self.dbAgentInit = function fndbAgent() {
     let result;
     console.log("Call dbAgentInit");
-    let utlAtlas = 'mongodb+srv://politecnico:Poli123@cluster0-jsape.mongodb.net/test?retryWrites=true&w=majority';
+    let utlAtlas = 'mongodb+srv://politecnico:Poli123@cluster0-jsape.mongodb.net/rigth?retryWrites=true&w=majority';
     mongoose.connect(utlAtlas, { useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS: 120000 })
       .then(() => {
         result = true;
