@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+   con1:
+            image: right
+            restart: always
+    
+   con2: 
+            image: front
+            restart: always
+
+   con3:
+            image: left
+            restart: always
+
+   con4:
+            image: integrator
+            restart: always
+
+   con5:
+            image: back
+            restart: always
+
+
+
