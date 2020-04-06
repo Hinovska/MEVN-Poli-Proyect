@@ -1,5 +1,5 @@
 
-/*******ASIGNACIÓN PINES PARA PLACA NodeMCU LOLIN********/
+/*******PINES PARAA NodeMCU********/
 
 #define ENA   D5          // Enable/speed motores Right        
 #define ENB   D6          // Enable/speed motores Left         
@@ -163,8 +163,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   incoming.trim();
   Serial.println("Mensaje -> " + incoming);
-
-  Serial.println("Char -> " + (char)incoming[0]);
 
   
 /****** MOVIMIENTOS CARRO*******/
