@@ -2,6 +2,12 @@
 
 import 'package:flutter/material.dart';
 
+//my import
+import '../services/BackButtonService.dart';
+import '../services/FrontButtonService.dart';
+import '../services/LeftButtonService.dart';
+import '../services/RigthButtonService.dart';
+
 
 class ButtonComponent extends StatelessWidget {
   @override
@@ -13,14 +19,15 @@ class ButtonComponent extends StatelessWidget {
         children: [
           new Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [_frontButton(), _backButton(),],
+            children: [FrontButtonService(), BackButtonService(),],
           ),
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               new Row(
-                children: [_leftButton(), _rigthButton()],
+                children: [LeftButtonService(),  RigthButtonService()],
               )
+              
             ],
           )
         ],
@@ -28,96 +35,4 @@ class ButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _frontButton() {
-    
-    return InkWell(
-      child: new Container(
-        margin: const EdgeInsets.only(top: 20.0),
-        decoration: const ShapeDecoration(
-          color: Colors.lightBlue,
-          shape: CircleBorder(),
-        ),
-        child: IconButton(
-          icon: Icon(Icons.expand_less),
-          color: Colors.white,
-          onPressed: () {
-            print("Front");
-          },
-          iconSize: 60.0,
-          
-        ),
-      ),
-      onTap: () {
-        print("Front...");
-      },
-    );
-  }
-
-  Widget _backButton() {
-    return InkWell(
-      child: new Container(
-        margin: const EdgeInsets.only(top: 20.0),
-        decoration: const ShapeDecoration(
-          color: Colors.lightBlue,
-          shape: CircleBorder(),
-        ),
-        child: IconButton(
-          icon: Icon(Icons.expand_more),
-          color: Colors.white,
-          onPressed: () {
-            print("Back");
-          },
-          iconSize: 60.0,
-        ),
-      ),
-      onTap: () {
-        print("Back...");
-      },
-    );
-  }
-
-  Widget _leftButton() {
-    return InkWell(
-      child: new Container(
-        margin: const EdgeInsets.only(left: 30.0),
-        decoration: const ShapeDecoration(
-          color: Colors.lightBlue,
-          shape: CircleBorder(),
-        ),
-        child: IconButton(
-          icon: Icon(Icons.chevron_left),
-          color: Colors.white,
-          onPressed: () {
-            print("Left");
-          },
-          iconSize: 60.0,
-        ),
-      ),
-      onTap: () {
-        print("Left...");
-      },
-    );
-  }
-
-  Widget _rigthButton() {
-    return InkWell(
-      child: new Container(
-          margin: const EdgeInsets.only(left: 20.0),
-          decoration: const ShapeDecoration(
-            color: Colors.lightBlue,
-            shape: CircleBorder(),
-          ),
-          child: IconButton(
-            icon: Icon(Icons.chevron_right),
-            color: Colors.white,
-            onPressed: () {
-              print("Rigth");
-            },
-            iconSize: 60.0,
-          )),
-      onTap: () {
-        print("Rigth...");
-      },
-    );
-  }
 }
