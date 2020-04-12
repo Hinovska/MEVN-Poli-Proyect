@@ -1,6 +1,6 @@
-# app
+# com
 
-Politecnico
+proyecto
 
 ## Getting Started
 
