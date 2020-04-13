@@ -13,34 +13,70 @@ class _LeftButtonServiceState extends State<LeftButtonService> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: new Container(
-        margin: const EdgeInsets.only(top: 20.0),
-        decoration: const ShapeDecoration(
-          color: Colors.lightBlue,
-          shape: CircleBorder(),
-        ),
-        child: IconButton(
-          icon: Icon(Icons.chevron_left),
-          color: Colors.white,
-          onPressed: () {
-            msLeft();
-            print("Left");
-          },
-          iconSize: 60.0,
+    return GestureDetector(
+      onTapDown: (o) {
+        setState(() {
+          msLeft();
+          print("Left");
+        });
+      },
+      onTap: () {
+        setState(() {
+          msStopLeft();
+          print("StopLeft");
+        });
+      },
+      child: InkWell(
+        child: new Container(
+          margin: const EdgeInsets.only(),
+          decoration: const ShapeDecoration(
+            color: Colors.lightBlue,
+            shape: CircleBorder(),
+          ),
+          child: IconButton(
+            icon: //Image.asset('lib/src/assets/images/LeftCircle.png',  alignment: Alignment.center,),
+                Icon(
+              Icons.chevron_left,
+              color: Colors.white,
+            ),
+            color: Colors.white,
+            onPressed: null,
+            iconSize: 100.0,
+            enableFeedback: true,
+          ),
         ),
       ),
-      onTap: () {
-        print("Left Stop");
-      },
     );
   }
 
-  Future<String> msLeft() async {
-    http.Response response = await http
-        .get(Uri.encodeFull("https://left-finyzlkrza-uc.a.run.app/move"), headers: {"Accept": "aplication/json"});
+  msLeft() async {
+    http.Response response = await http.get(
+        Uri.encodeFull("https://left-finyzlkrza-uc.a.run.app/move"),
+        headers: {"Accept": "aplication/json"});
     print(response.body);
     data = json.decode(response.body);
+
+    if (data["status"] == "OK") {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Success! ' + data["message"]),
+      ));
+    }
+
+    return "Success!";
+  }
+
+  msStopLeft() async {
+    http.Response response = await http.get(
+        Uri.encodeFull("https://left-finyzlkrza-uc.a.run.app/stop"),
+        headers: {"Accept": "aplication/json"});
+    print(response.body);
+    data = json.decode(response.body);
+
+    if (data["status"] == "OK") {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Success! ' + data["message"]),
+      ));
+    }
 
     return "Success!";
   }

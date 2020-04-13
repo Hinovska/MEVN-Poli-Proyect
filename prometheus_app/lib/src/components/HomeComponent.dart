@@ -2,51 +2,53 @@ import 'package:flutter/material.dart';
 
 //my import
 import 'BackgroundComponent.dart';
-import 'ButtonLedComponent.dart';
 
 class HomeComponent extends StatefulWidget {
-  HomeComponent({Key key, this.title}) : super(key: key);
-
-
-  final String title;
-
   @override
   HomeComponentState createState() => HomeComponentState();
 }
 
 class HomeComponentState extends State<HomeComponent> {
-  bool led = false;
-
-  void toggleLed() {
-    setState(() {
-      led = !led;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          BackgroundComponent(),
-          Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 80.0),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "PROMETHEUS",
-                  style: const TextStyle(
-                      fontFamily: 'PROMETHEUS',
-                      fontSize: 35.0,
-                      color: Colors.white70,
-                      fontWeight: FontWeight.w600),
-                ),
-                ButtonLedComponent(this)
-              ],
+      body: InkResponse(
+        child: Stack(
+          children: <Widget>[
+            BackgroundComponent(),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 80.0),
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(),
+                    child: Text(
+                      "PROMETHEUS",
+                      style: const TextStyle(
+                          fontFamily: 'PROMETHEUS',
+                          fontSize: 40.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                  Expanded(child: SizedBox()),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 50.0),
+                    child: Text(
+                      "ROBOTCAR",
+                      style: const TextStyle(
+                          fontFamily: 'PROMETHEUS',
+                          fontSize: 30.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

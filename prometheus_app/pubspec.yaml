@@ -1,5 +1,5 @@
-name: com
-description: proyecto
+name: ROBOTCAR
+description: PROMETHEUS APP
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -14,7 +14,7 @@ description: proyecto
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -39,6 +39,14 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - lib/src/assets/images/Back.png
+    - lib/src/assets/images/Front.png
+    - lib/src/assets/images/BackCircle.png
+    - lib/src/assets/images/FrontCircle.png
+    - lib/src/assets/images/LeftCircle.png
+    - lib/src/assets/images/RigthCircle.png
 
   fonts:
     - family: PROMETHEUS

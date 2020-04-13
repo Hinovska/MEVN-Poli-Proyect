@@ -10,7 +10,7 @@ class BackgroundComponent extends StatelessWidget {
     return Stack(
       children: [
         GradientBack(),
-         Positioned(bottom: 30.0, child: ButtonComponent())
+         Positioned(child: ButtonComponent())
       ],
     );
   }
