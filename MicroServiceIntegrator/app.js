@@ -1,36 +1,25 @@
-/*let engineMoves = require("./models/engine");*/
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const mqtt = require("mqtt");
 
 function ModelAgent() {
   let self = this;
   self.Init = () => {
-    self.dbAgent()
+    //self.dbAgent()
     return self.AgentMqtt.Init();
   };
-  self.dbAgent = function fndbAgent() {
+  /*self.dbAgent = function fndbAgent() {
     console.log("Call dbAgent");
     let utlAtlas = 'mongodb+srv://politecnico:Poli123@cluster0-jsape.mongodb.net/test?retryWrites=true&w=majority';
     mongoose.connect(utlAtlas, { useNewUrlParser: true, connectTimeoutMS: 120000 })
       .then(() => console.log('connected to db'))
       .catch(err => console.log(err));
     return true;
-  };
+  };*/
   self.ListBD = async function fnListBD(client) {
     console.log("Call ListBD");
     databasesList = await client.db().admin().listDatabases();
     console.log("Databases:");
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-  };
-  self.dbTeam = function fndbTeam() {
-    const uri = "mongodb+srv://PrometheusApp:Poli123@prometheusteam-oabpa.gcp.mongodb.net/test?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    client.connect(err => {
-      const collection = client.db("test").collection("devices");
-      // perform actions on the collection object
-      client.close();
-    });
-    console.log("Call dbTeam");
   };
   self.AgentMqtt = {
     mqtt_client: null,
