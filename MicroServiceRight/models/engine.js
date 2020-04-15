@@ -1,6 +1,3 @@
-
-
-//const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const mqtt = require("mqtt");
 
@@ -51,7 +48,6 @@ function ModelEngine() {
     self.dbAgentInit();
     return self.AgentMqtt.Init() && self.fnTestMoves();
   };
-
   /**conexion DB */
   self.dbAgentInit = function fndbAgent() {
     let result;
@@ -63,21 +59,18 @@ function ModelEngine() {
         dbOk = result;
         console.log('connected to db', result);
       })
-      .catch(err => { console.log(err); 
+      .catch(err => { console.log(err);
         dbOk = false;
       });
     return result;
   };
-  
   /**registro a DB*/
   self.RegisterMove = (data) => {
     if (dbOk) {
       self.mongoDb = new modelMove({move: data});
       self.mongoDb.save();
-      
     }
   };
-  
   self.AgentMqtt = {
     mqtt_client: null,
     WebSocket_URL: 'ws://35.198.1.82:8083/mqtt',
@@ -106,12 +99,10 @@ function ModelEngine() {
       return true;
     },
     Send: function (topic, message) {
-
       //Envio a MQTX para ardiuno
       self.AgentMqtt.mqtt_client.publish(topic, message, (error) => {
         console.log(error || 'Enviado a Broker: ', topic, '->', message);
       });
-
       /**Registro a Mongo DB*/
       self.RegisterMove(message);
     }

@@ -9,4 +9,3 @@ Creacion de Multiples Sistemas integrados para mover robot mediante señales mio
 - Juan Barbosa
 - Mauro Martinez
 - Victor Sierra
-

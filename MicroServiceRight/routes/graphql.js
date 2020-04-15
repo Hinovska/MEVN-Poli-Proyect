@@ -2,34 +2,27 @@ const express = require('express');
 const router = express.Router();
 const express_graphql = require("express-graphql");
 const { buildSchema } = require("graphql");
-const {courses} = require("../data/courses.json");
+const {moves} = require("../data/right.json");
 const objschema = buildSchema(`
-  type Query {
-    course(id:Int!): Course
-    courses(topic:String): [Course]
+  type Move {
+    move: String!
+    creation: String!
   }
+  type Query {
+    allMoves: [Move!]!
+  }
+  type Mutation {
+    createMove(move: String!): Move!
+  }
+`);
 
-  type Course {
-    id:Int
-    title:String
-    author:String
-    topic:String
-    url:String
-  }`);
-
-let getCourse = (args) => {
-  let id = args.id;
-  return courses.filter(course => {return course.id == id;})[0];
-};
-
-let getCourses = (args) => {
+let getMoves = (args) => {
   let topic = args.topic;
-  return courses.filter(courses => {return courses.topic == topic;});
+  return moves.filter(mov => {return mov.topic == topic;});
 };
 
 const root = {
-  course: getCourse,
-  courses: getCourses
+  courses: getMoves
 };
 /* GET contact listing. */
 router.get('/',express_graphql({

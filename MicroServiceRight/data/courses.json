@@ -1,5 +1,6 @@
 {
-  "courses":[{
+  "courses":[
+    {
       "id":1,
       "title":"Curso de Nodejs",
       "author":"Andres Gomez",
@@ -33,5 +34,6 @@
       "author":"Andres Gomez",
       "topic":"Nodejs",
       "url":"https://fatzweb.com"
-    }]
+    }
+  ]
 }
