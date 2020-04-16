@@ -23,25 +23,29 @@ class HomeComponentState extends State<HomeComponent> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(),
-                    child: Text(
-                      "PROMETHEUS",
-                      style: const TextStyle(
-                          fontFamily: 'PROMETHEUS',
-                          fontSize: 40.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900),
+                    child: InkResponse(
+                      child: Text(
+                        "PROMETHEUS",
+                        style: const TextStyle(
+                            fontFamily: 'PROMETHEUS',
+                            fontSize: 40.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900),
+                      ),
                     ),
                   ),
                   Expanded(child: SizedBox()),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 50.0),
-                    child: Text(
-                      "ROBOTCAR",
-                      style: const TextStyle(
-                          fontFamily: 'PROMETHEUS',
-                          fontSize: 30.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900),
+                    child: InkResponse(
+                      child: Text(
+                        "ROBOTCAR",
+                        style: const TextStyle(
+                            fontFamily: 'PROMETHEUS',
+                            fontSize: 30.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900),
+                      ),
                     ),
                   ),
                 ],
