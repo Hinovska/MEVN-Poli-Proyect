@@ -7,26 +7,31 @@ class LeftButtonService extends StatefulWidget {
   _LeftButtonServiceState createState() => _LeftButtonServiceState();
 }
 
-class _LeftButtonServiceState extends State<LeftButtonService> {
+class _LeftButtonServiceState extends State<LeftButtonService> with SingleTickerProviderStateMixin {
   var data;
+  double opacity = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (o) {
         setState(() {
+          opacity = .5;
           msLeft();
           print("Left");
         });
       },
       onTap: () {
         setState(() {
+          opacity = 1.0;
           msStopLeft();
           print("StopLeft");
         });
       },
       child: InkWell(
-        child: new Container(
+        child: new AnimatedOpacity(opacity: opacity,
+         duration: Duration(milliseconds: 500),
+         child: new Container(
           margin: const EdgeInsets.only(),
           decoration: const ShapeDecoration(
             color: Colors.lightBlue,
@@ -44,6 +49,11 @@ class _LeftButtonServiceState extends State<LeftButtonService> {
             enableFeedback: true,
           ),
         ),
+         ),
+        
+        
+        
+        
       ),
     );
   }

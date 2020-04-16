@@ -7,13 +7,15 @@ class FrontButtonService extends StatefulWidget {
   _FrontButtonServiceState createState() => _FrontButtonServiceState();
 }
 
-class _FrontButtonServiceState extends State<FrontButtonService> {
+class _FrontButtonServiceState extends State<FrontButtonService> with SingleTickerProviderStateMixin {
   var data;
+  double opacity = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (e) {
+        opacity = .5;
         setState(() {
           msFront();
           print("Front");
@@ -21,11 +23,15 @@ class _FrontButtonServiceState extends State<FrontButtonService> {
       },
       onTap: () {
         setState(() {
+          opacity = 1.0;
           msStopFront();
           print("Stop Front");
         });
       },
       child: InkResponse(
+          child: AnimatedOpacity(
+        opacity: opacity,
+        duration: Duration(milliseconds: 500),
         child: new Container(
           margin: const EdgeInsets.only(),
           decoration: const ShapeDecoration(
@@ -44,7 +50,7 @@ class _FrontButtonServiceState extends State<FrontButtonService> {
             enableFeedback: true,
           ),
         ),
-      ),
+      )),
     );
   }
 

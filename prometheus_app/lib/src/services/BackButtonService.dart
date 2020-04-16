@@ -7,25 +7,30 @@ class BackButtonService extends StatefulWidget {
   _BackButtonServiceState createState() => _BackButtonServiceState();
 }
 
-class _BackButtonServiceState extends State<BackButtonService> {
+class _BackButtonServiceState extends State<BackButtonService> with SingleTickerProviderStateMixin {
   var data;
+  double opacity = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (o) {
         setState(() {
+          opacity = .5;
           msBack();
           print("Back");
         });
       },
       onTap: () {
         setState(() {
+          opacity = 1.0;
           msStopBack();
           print("StopBack");
         });
       },
       child: InkResponse(
+        child: new AnimatedOpacity(opacity: opacity, 
+        duration: Duration(milliseconds: 500),
         child: new Container(
           margin: const EdgeInsets.only(),
           decoration: const ShapeDecoration(
@@ -43,6 +48,13 @@ class _BackButtonServiceState extends State<BackButtonService> {
             enableFeedback: true,
           ),
         ),
+        
+        
+        ),
+        
+        
+        
+         
       ),
     );
   }

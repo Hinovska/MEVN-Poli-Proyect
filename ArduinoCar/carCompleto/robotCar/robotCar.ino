@@ -9,8 +9,8 @@
 #define IN_4  D3          // L298N in4 motores Left            
 #define ligthFront  D2    // Luz Frontal                       
 #define ligthBack   D1    // Luz Stop                          
-#define flashingDer  D10  // Luz direccionales derecha      
-#define flashingIzq  D9   // Luz direccionales Izquierda 
+//#define flashingDer  D10  // Luz direccionales derecha      
+//#define flashingIzq  D9   // Luz direccionales Izquierda 
 
 
 /*********** LIBRERIAS **************/
@@ -73,8 +73,8 @@ void setup() {
   pinMode(IN_4, OUTPUT);
   pinMode(ligthFront, OUTPUT);
   pinMode(ligthBack, OUTPUT);
-  pinMode(flashingDer, OUTPUT);
-  pinMode(flashingIzq, OUTPUT);
+//  pinMode(flashingDer, OUTPUT);
+//  pinMode(flashingIzq, OUTPUT);
 
   setup_wifi();
   client.setServer(mqttServer, mqttPort);
@@ -313,14 +313,14 @@ void controlLigth(char param)
   switch (param) {
     case 'F': digitalWrite(ligthFront, HIGH); break;
     case 'B': digitalWrite(ligthBack, HIGH); break;
-    case 'R': digitalWrite(flashingDer, HIGH); break;
-    case 'L': digitalWrite(flashingIzq, HIGH); break;
+//    case 'R': digitalWrite(flashingDer, HIGH); break;
+//    case 'L': digitalWrite(flashingIzq, HIGH); break;
     case 'S':
 
       digitalWrite(ligthFront, LOW);
       digitalWrite(ligthBack, LOW);
-      digitalWrite(flashingDer, LOW);
-      digitalWrite(flashingIzq, LOW);
+//      digitalWrite(flashingDer, LOW);
+//      digitalWrite(flashingIzq, LOW);
       break;
   }
 }

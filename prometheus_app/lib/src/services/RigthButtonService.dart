@@ -7,46 +7,53 @@ class RigthButtonService extends StatefulWidget {
   _RigthButtonServiceState createState() => _RigthButtonServiceState();
 }
 
-class _RigthButtonServiceState extends State<RigthButtonService> {
+class _RigthButtonServiceState extends State<RigthButtonService> with SingleTickerProviderStateMixin {
   var data;
+  double opacity = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onLongPress: () {
+      onTapDown: (o) {
         setState(() {
+          opacity = .5;
           msRigth();
           print("Left");
         });
       },
       onTap: () {
         setState(() {
+          opacity = 1.0;
           msStopRigth();
           print("StopLeft");
         });
       },
       child: InkResponse(
-        splashColor: Colors.yellow,
-        highlightColor: Colors.blue.withOpacity(0.5),
-        child: new Container(
-          margin: const EdgeInsets.only(),
-          decoration: const ShapeDecoration(
-            color: Colors.lightBlue,
-            shape: CircleBorder(),
-          ),
-          child: IconButton(
-            icon: //Image.asset('lib/src/assets/images/RigthCircle.png',  alignment: Alignment.center,),
-                Icon(
-              Icons.chevron_right,
-              color: Colors.white,
+          splashColor: Colors.yellow,
+          highlightColor: Colors.blue.withOpacity(0.5),
+          child: new AnimatedOpacity(
+            opacity: opacity,
+            duration: Duration(milliseconds: 500),
+            child: new Container(
+              margin: const EdgeInsets.only(),
+              decoration: const ShapeDecoration(
+                color: Colors.lightBlue,
+                shape: CircleBorder(),
+              ),
+              child: IconButton(
+                icon: //Image.asset('lib/src/assets/images/RigthCircle.png',  alignment: Alignment.center,),
+                    Icon(
+                  Icons.chevron_right,
+                  color: Colors.white,
+                ),
+                color: Colors.white,
+                onPressed: null,
+                iconSize: 100.0,
+                enableFeedback: true,
+              ),
             ),
-            color: Colors.white,
-            onPressed: null,
-            iconSize: 100.0,
-            enableFeedback: true,
           ),
-        ),
-      ),
+          ),
     );
   }
 
