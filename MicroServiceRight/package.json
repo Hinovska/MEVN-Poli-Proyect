@@ -8,24 +8,22 @@
     "unlock": "sudo fuser -k -n tcp 5006"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "cookie-parser": "^1.4.5",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
     "express-graphql": "^0.9.0",
-    "firmata-party": "^2.0.0",
-    "graphql": "^14.6.0",
-    "http-errors": "~1.6.3",
+    "graphql": "^15.0.0",
+    "graphql-tools": "^5.0.0",
+    "http-errors": "^1.7.3",
     "jade": "^1.11.0",
-    "johnny-five": "^1.4.0",
-    "mongodb": "^3.5.5",
-    "mongoose": "^5.9.4",
-    "morgan": "~1.9.1",
-    "mqtt": "^3.0.0",
-    "nodemon": "^2.0.2"
+    "mongodb": "^3.5.6",
+    "mongoose": "^5.9.10",
+    "morgan": "^1.10.0",
+    "mqtt": "^4.0.0"
   },
   "main": "app.js",
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3"
   },
   "keywords": [],
   "author": "Andres Gomez - Prometheus Team",

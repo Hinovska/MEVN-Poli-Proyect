@@ -10,9 +10,9 @@
   "author": "Andres Gomez - Prometheus Team",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^5.9.9",
+    "mongoose": "^5.9.10",
     "morgan": "^1.10.0",
-    "mqtt": "^3.0.0",
+    "mqtt": "^4.0.0",
     "nodejs": "0.0.0"
   },
   "devDependencies": {

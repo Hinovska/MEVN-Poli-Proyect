@@ -4,12 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const graphqlHTTP = require("express-graphql");
+const shcehmaBack = require('./config/schema.Graph');
+
 var indexRouter = require('./routes/index');
 
 //API para movimientos de Coche
 var frontRouter = require('./routes/moves/front');
 var stopRouter = require('./routes/moves/stop');
-var graphqlRouter = require('./routes/graphql');
+
 
 var app = express();
 
@@ -24,9 +27,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/graphql', graphqlRouter);
 app.use('/move', frontRouter);
 app.use('/stop', stopRouter);
+
+/** GraphQL */
+app.use('/graphql',graphqlHTTP({
+  schema: shcehmaBack,
+  graphiql: true
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
