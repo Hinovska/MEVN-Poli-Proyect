@@ -1,0 +1,106 @@
+* {
+  color: #070133;
+}
+.graph{
+  color: #0d0e88;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  font-weight: bold;
+  border: 4px solid #0f5491;
+  border-radius: 50%;
+}
+.graph path{
+  color: #0d79d9;
+}
+a> svg.bi{
+  color: #2c2a79;
+  width: 24px;
+  height: 24px;
+}
+table.table{
+  border: 1px solid red;
+}
+
+table.table tbody tr td{
+  /*background-color: red;*/
+}
+
+table.table thead tr th{
+  text-align: center;
+}
+
+table.table tbody tr td.iconContent{
+  text-align: center;
+  vertical-align: middle;
+}
+table.table tbody tr td.dirContent{
+  text-align: left;
+  text-transform: capitalize;
+  vertical-align: middle;
+}
+table.table tbody tr td.dateContent{
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hidden{
+  display: none;
+}
+
+.sync{
+  display: flex;
+  text-align: center;
+  align-content: center ;
+  flex-flow: row nowrap;
+  align-content: center;
+  justify-content: center;
+  margin: 0px 0px 9px 0px;
+}
+
+.sync .btn-secondary{
+  margin: auto 2px auto 2px;
+  width: 90px;
+  padding: 3px 3px;
+  font-size: 14px;
+}
+
+.sync .btn-secondary .bi-bootstrap-reboot path{
+  color: white;
+}
+.sync .text-muted{
+  font-size: 12px;
+  margin: auto 5px auto 0px;
+}
+
+.sync .bi-info-circle{
+  width: 18px;
+  height: 18px;
+  margin: auto 5px auto 0px;
+}
+
+.spinner-grow{
+ margin: 10px auto 10px auto;
+}
+.loading{
+  display: flex;
+}
+
+.list-complete-item {
+  transition: all 1s;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}

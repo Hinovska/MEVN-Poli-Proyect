@@ -97,9 +97,6 @@ function MergeAgent(){
            }
            self.resultData.push(data);
          });
-         self.resultData.sort(function(a, b){
-           return new Date(b.created) - new Date(a.created);
-         });
        }
        return true;
      }).catch(error => {
@@ -117,9 +114,6 @@ model.mergeMicroServices();
 router.get('/', async (req, res) => {
   model.mergeMicroServices();
   let result = model.resultData;
-  result.sort(function(a, b){
-    return new Date(b.created) - new Date(a.created);
-  });
   res.json(result);
 });
 

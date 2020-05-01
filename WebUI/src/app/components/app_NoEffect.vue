@@ -29,25 +29,6 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-body">
-              <transition name="fade">
-                <div class="lead row" v-if="countBackCalls == 0">
-                  <div class="col-md-12 mb-9 sync">
-                    <span class="hidden">{{ countBackCalls }}</span>
-                    <svg class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
-                      <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-                      <circle cx="8" cy="4.5" r="1"/>
-                    </svg>
-                    <span class="text-muted">Synchronization has been stopped to avoid blocking in your browser.</span>
-                    <button class="btn btn-secondary" type="button" v-on:click="activateSync">
-                      <svg class="bi bi-bootstrap-reboot" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M1.161 8a6.84 6.84 0 106.842-6.84.58.58 0 010-1.16 8 8 0 11-6.556 3.412l-.663-.577a.58.58 0 01.227-.997l2.52-.69a.58.58 0 01.728.633l-.332 2.592a.58.58 0 01-.956.364l-.643-.56A6.812 6.812 0 001.16 8zm5.48-.079V5.277h1.57c.881 0 1.416.499 1.416 1.32 0 .84-.504 1.324-1.386 1.324h-1.6zm0 3.75V8.843h1.57l1.498 2.828h1.314L9.377 8.665c.897-.3 1.427-1.106 1.427-2.1 0-1.37-.943-2.246-2.456-2.246H5.5v7.352h1.141z" clip-rule="evenodd"/>
-                      </svg>
-                     Sync
-                    </button>
-                  </div>
-                </div>
-              </transition>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -62,8 +43,9 @@
                     </th>
                   </tr>
                 </thead>
-                  <transition-group name="list-complete" tag="tbody">
-                    <tr v-for="mov of latestMoves" v-bind:key="mov" class="list-complete-item">
+                <tbody>
+
+                    <tr v-for="mov of latestMoves">
                       <td class="iconContent">
                         <template v-if="mov.move=='front'">
                           <svg class="bi bi-caret-up-fill graph" width="2em" height="2em" viewBox="0 1 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -89,13 +71,9 @@
                       <td class="dirContent">{{mov.move}}</td>
                       <td class="dateContent">{{mov.created}}</td>
                     </tr>
-                  </transition-group>
+
+                </tbody>
               </table>
-              <div class="loading" v-if="this.latestMoves.length == 0">
-                <div class="spinner-grow" role="status" >
-                  <span class="sr-only">Loading... </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -118,9 +96,7 @@
         move: new Move(),
         latestMoves: [],
         timeoutFlag: 0,
-        getInterval: 5000,
-        limitBackgroundCalls: 30,
-        countBackCalls: 30
+        getInterval: 5000
       }
     },
     created() {
@@ -156,7 +132,6 @@
                 this.latestMoves.sort(function(a, b){
                   return new Date(b.created) - new Date(a.created);
                 });
-                this.countBackCalls = this.limitBackgroundCalls;
                 this.move = new Move();
               }
             }
@@ -177,21 +152,12 @@
         });
       },
       autoUpdate() {
-        if (this.countBackCalls > 0){
-          if (this.timeoutFlag && this.timeoutFlag > 0){
-            clearTimeout(this.timeoutFlag);
-          }
-          this.timeoutFlag = setTimeout(()=>{
-            this.getMoves();
-          }, this.getInterval);
-          this.countBackCalls -= 1;
-          console.log(this.countBackCalls);
+        if (this.timeoutFlag && this.timeoutFlag > 0){
+          clearTimeout(this.timeoutFlag);
         }
-      },
-      activateSync(){
-        this.countBackCalls = this.limitBackgroundCalls;
-        //console.log("Call activateSync");
-        this.getMoves();
+        this.timeoutFlag = setTimeout(()=>{
+          this.getMoves();
+        }, this.getInterval);
       }
     }
   }
