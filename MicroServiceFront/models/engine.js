@@ -1,4 +1,3 @@
-
 const mqtt = require("mqtt");
 
 const { conect } = require("../config/conectDB");
@@ -11,23 +10,23 @@ function ModelEngine() {
   self.direcctions = ["front"];
   self.fnStop = () => {
     let result = { status: "OK", message: "Stoped" };
-    self.AgentMqtt.Send("EMGcar/Move", "Stop");
+    self.Send("EMGcar/Move", "Stop");
     return result;
   };
   self.fnChangeDirection = (toDirection) => {
     let result = { status: "OK", message: "Moving to " + toDirection };
     switch (toDirection) {
       case "front":
-        self.AgentMqtt.Send("EMGcar/Move", toDirection);
+        self.Send("EMGcar/Move", toDirection);
         break;
       case "backward":
-        self.AgentMqtt.Send("EMGcar/Move", toDirection);
+        self.Send("EMGcar/Move", toDirection);
         break;
       case "left":
-        self.AgentMqtt.Send("EMGcar/Move", toDirection);
+        self.Send("EMGcar/Move", toDirection);
         break;
       case "right":
-        self.AgentMqtt.Send("EMGcar/Move", toDirection);
+        self.Send("EMGcar/Move", toDirection);
         break;
       default:
         result.status = "Fail";
@@ -36,6 +35,7 @@ function ModelEngine() {
     }
     return result;
   };
+  /**Test */
   self.fnTestMoves = () => {
     console.log("Start Test Engine");
     self.direcctions.map((dir) => {
@@ -47,7 +47,7 @@ function ModelEngine() {
   };
   self.fnInit = () => {
     conect;
-    return self.AgentMqtt.Init() /** && self.fnTestMoves()*/;
+    return self.conectMqtt(); /** && self.fnTestMoves()*/
   };
 
   //**registro a DB*/
@@ -62,50 +62,41 @@ function ModelEngine() {
     });
   };
 
-  /**subscripción MQTT */
-  self.AgentMqtt = {
-    mqtt_client: null,
-    WebSocket_URL: "ws://35.198.1.82:8083/mqtt",
-    options: {
-      connectTimeout: 4000,
-      clientId: "MSFront",
-      keepalive: 60,
-      clean: true,
-    },
-    Init: function () {
-      self.AgentMqtt.mqtt_client = mqtt.connect(
-        self.AgentMqtt.WebSocket_URL,
-        self.AgentMqtt.options
-      );
-      self.AgentMqtt.mqtt_client.on("connect", () => {
-        ///qos Calidad de entrega Mensaje (0 )
-        self.AgentMqtt.mqtt_client.subscribe(
-          "Response/FRONT",
-          { qos: 0 },
-          (error) => {
-            if (!error) {
-              console.log("Mqtt conectado por ws - Done");
-            } else {
-              console.log("Mqtt conectado por ws - Fail");
-            }
-          }
-        );
-      });
-      self.AgentMqtt.mqtt_client.on("message", (topic, message) => {
-        console.log("Mensaje recibido:", topic, "->", message.toString());
-      });
-      return true;
-    },
-    Send: function (topic, message) {
-      self.AgentMqtt.mqtt_client.publish(topic, message, (error) => {
-        console.log(error || "Enviado a Broker: ", topic, "->", message);
-      });
+  /**Conexión a MQTT */
+  self.conectMqtt = async () => {
+    var randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
-      /**Registro a Mongo DB*/
-      if (message == "front") {
-        self.RegisterMove(message);
+    self.mqtt_client = await mqtt.connect("ws://35.198.1.82:8083/mqtt", {
+      clientId: "MSFront" + randomColor,
+    });
+    self.Subscribe();
+  };
+
+  /**Subscribe MQTT */
+  self.Subscribe = () => {
+    self.mqtt_client.subscribe("Response/FRONT", { qos: 0 }, (error) => {
+      if (!error) {
+        console.log("Mqtt conectado por ws - Done  Topic: Response/FRONT");
+      } else {
+        console.log("Mqtt conectado por ws - Fail MAO Topic: Response/FRONT");
       }
-    },
+    });
+    /**CallBack MQTT */
+    self.mqtt_client.on("message", (topic, message) => {
+      console.log("Mensaje recibido:", topic, "->", message.toString());
+    });
+  };
+
+  /**Publisher MQTT */
+  self.Send = (topic, message) => {
+    self.mqtt_client.publish(topic, message, (error) => {
+      console.log(error || "Enviado a Broker: ", topic, "->", message);
+    });
+
+    /**Llama a Registro a Mongo DB*/
+    if (message == "front") {
+      self.RegisterMove(message);
+    }
   };
 }
 
