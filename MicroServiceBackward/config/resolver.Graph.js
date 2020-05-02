@@ -8,14 +8,11 @@ function MoveBack() {
         return self.selectBack().catch((error) => console.log(error.stack));
       },
 
-      backmovesdate: (date) => {
+      backmovesdate: (_, { date }) => {
         console.log(date);
         return self
           .selectBack(date)
           .then((result) => {
-            // result.map((created) => {
-            //     created.created = new Date(created.created);
-            // });
             return result;
           })
           .catch((error) => console.log(error.stack));
@@ -24,14 +21,15 @@ function MoveBack() {
   };
 
   self.selectBack = async function consulta(created) {
-    console.log("create: ", created);
+    
     if (created) {
       let data = new Date(created);
+      let datalimit = new Date();
       const moveBack = await modelMoveBack
         .find({
-          createdAt: {
-            $gte: data.toDate(),
-            $lte: moment(data).endOf("day").toDate(),
+          created: {
+            $gte: data,
+            $lte: datalimit
           },
         })
         .select()

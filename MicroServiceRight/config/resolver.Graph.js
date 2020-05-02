@@ -8,14 +8,11 @@ function MoveRigth() {
         return self.selectRigth().catch((error) => console.log(error.stack));
       },
 
-      rigthmovesdate: (date) => {
+      rigthmovesdate: (_, { date }) => {
         console.log(date);
         return self
           .selectRigth(date)
           .then((result) => {
-            // result.map((created) => {
-            //     created.created = new Date(created.created);
-            // });
             return result;
           })
           .catch((error) => console.log(error.stack));
@@ -24,14 +21,14 @@ function MoveRigth() {
   };
 
   self.selectRigth = async function consulta(created) {
-    console.log("create: ", created);
     if (created) {
       let data = new Date(created);
+      let datalimit = new Date();
       const moveRigth = await modelMoveRigth
         .find({
-          createdAt: {
-            $gte: data.toDate(),
-            $lte: moment(data).endOf("day").toDate(),
+          created: {
+            $gte: data,
+            $lte: datalimit,
           },
         })
         .select()

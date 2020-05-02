@@ -8,14 +8,11 @@ function MoveLeft() {
         return self.selectLeft().catch((error) => console.log(error.stack));
       },
 
-      leftmovesdate: (date) => {
+      leftmovesdate: (_, { date }) => {
         console.log(date);
         return self
           .selectLeft(date)
           .then((result) => {
-            // result.map((created) => {
-            //     created.created = new Date(created.created);
-            // });
             return result;
           })
           .catch((error) => console.log(error.stack));
@@ -24,14 +21,14 @@ function MoveLeft() {
   };
 
   self.selectLeft = async function consulta(created) {
-    console.log("create: ", created);
     if (created) {
       let data = new Date(created);
+      let datalimit = new Date();
       const moveLeft = await modelMoveLeft
         .find({
-          createdAt: {
-            $gte: data.toDate(),
-            $lte: moment(data).endOf("day").toDate(),
+          created: {
+            $gte: data,
+            $lte: datalimit
           },
         })
         .select()

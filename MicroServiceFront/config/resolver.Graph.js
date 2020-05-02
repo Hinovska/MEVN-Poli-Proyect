@@ -8,14 +8,11 @@ function MoveFront() {
         return self.selectFront().catch((error) => console.log(error.stack));
       },
 
-      frontmovesdate: (date) => {
+      frontmovesdate: (_, { date }) => {
         console.log(date);
         return self
           .selectFront(date)
           .then((result) => {
-            // result.map((created) => {
-            //     created.created = new Date(created.created);
-            // });
             return result;
           })
           .catch((error) => console.log(error.stack));
@@ -24,14 +21,14 @@ function MoveFront() {
   };
 
   self.selectFront = async function consulta(created) {
-    console.log("create: ", created);
     if (created) {
       let data = new Date(created);
+      let datalimit = new Date();
       const moveFront = await modelMoveFront
         .find({
-          createdAt: {
-            $gte: data.toDate(),
-            $lte: moment(data).endOf("day").toDate(),
+          created: {
+            $gte: data,
+            $lte: datalimit,
           },
         })
         .select()

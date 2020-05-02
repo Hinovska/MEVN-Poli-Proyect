@@ -175,7 +175,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     case (incoming == "frontL"): adelanteIzq(); break;
     case (incoming == "backwardR"): atrasDer(); break;
     case (incoming == "backwardL"): atrasIzq(); break;*/
-    case 's': stopCarro(); break;
+    case 'S': stopCarro(); break;
 
   }
 }
@@ -194,7 +194,7 @@ void adelante() {
   digitalWrite(IN_4, HIGH);
   analogWrite(ENB, speedCar);
 
-  controlLigth('F');
+  //controlLigth('F');
 }
 
 void atras() {
@@ -207,7 +207,7 @@ void atras() {
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar);
 
-  controlLigth('B');
+  //controlLigth('B');
 
 }
 
@@ -221,7 +221,7 @@ void derecha() {
   digitalWrite(IN_4, HIGH);
   analogWrite(ENB, speedCar);
 
-  controlLigth('R');
+  //controlLigth('R');
 }
 
 void izquierda() {
@@ -234,7 +234,7 @@ void izquierda() {
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar);
 
-  controlLigth('L');
+  //controlLigth('L');
 }
 
 void adelanteDer() {
@@ -247,7 +247,7 @@ void adelanteDer() {
   digitalWrite(IN_4, HIGH);
   analogWrite(ENB, speedCar);
 
-  controlLigth('R');
+  //controlLigth('R');
 }
 
 void adelanteIzq() {
@@ -260,7 +260,7 @@ void adelanteIzq() {
   digitalWrite(IN_4, HIGH);
   analogWrite(ENB, speedCar / speed_Coeff);
 
-  controlLigth('L');
+  //controlLigth('L');
 }
 
 void atrasDer() {
@@ -273,7 +273,7 @@ void atrasDer() {
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar);
 
-  controlLigth('R');
+  //controlLigth('R');
 }
 
 void atrasIzq() {
@@ -286,7 +286,7 @@ void atrasIzq() {
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar / speed_Coeff);
 
-  controlLigth('L');
+  //controlLigth('L');
 }
 
 void stopCarro() {
@@ -299,28 +299,28 @@ void stopCarro() {
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar);
 
-  controlLigth('S');
+  //controlLigth('S');
 }
 
 
-
-/**** CONTROL LUCES ****/
-void controlLigth(char param)
-{
-
- Serial.println("CONTROL LUCES: " + param );
-
-  switch (param) {
-    case 'F': digitalWrite(ligthFront, HIGH); break;
-    case 'B': digitalWrite(ligthBack, HIGH); break;
-//    case 'R': digitalWrite(flashingDer, HIGH); break;
-//    case 'L': digitalWrite(flashingIzq, HIGH); break;
-    case 'S':
-
-      digitalWrite(ligthFront, LOW);
-      digitalWrite(ligthBack, LOW);
-//      digitalWrite(flashingDer, LOW);
-//      digitalWrite(flashingIzq, LOW);
-      break;
-  }
-}
+//
+///**** CONTROL LUCES ****/
+//void controlLigth(char param)
+//{
+//
+// Serial.println("CONTROL LUCES: " + param );
+//
+//  switch (param) {
+//    case 'F': digitalWrite(ligthFront, HIGH); break;
+//    case 'B': digitalWrite(ligthBack, HIGH); break;
+////    case 'R': digitalWrite(flashingDer, HIGH); break;
+////    case 'L': digitalWrite(flashingIzq, HIGH); break;
+//    case 'S':
+//
+//      digitalWrite(ligthFront, LOW);
+//      digitalWrite(ligthBack, LOW);
+////      digitalWrite(flashingDer, LOW);
+////      digitalWrite(flashingIzq, LOW);
+//      break;
+//  }
+//}
