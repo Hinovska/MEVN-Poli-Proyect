@@ -19,7 +19,7 @@ function MoveBack() {
       },
     },
   };
-
+  
   self.selectBack = async function consulta(created) {
     
     if (created) {

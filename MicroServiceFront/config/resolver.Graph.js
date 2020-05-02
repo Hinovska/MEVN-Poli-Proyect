@@ -19,7 +19,7 @@ function MoveFront() {
       },
     },
   };
-
+  
   self.selectFront = async function consulta(created) {
     if (created) {
       let data = new Date(created);
