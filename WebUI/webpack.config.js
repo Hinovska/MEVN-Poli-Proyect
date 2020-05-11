@@ -10,7 +10,10 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 });*/
 
 module.exports = {
-  entry: __dirname + '/src/app/index.js',
+  entry: {
+    index: __dirname + '/src/app/draw.js',
+    grid: __dirname + '/src/app/grid.js'
+  },
   mode: 'development',
   //target: 'node', // in order too ignore built-in modules like path, fs, etc.
   //externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
@@ -34,7 +37,7 @@ module.exports = {
         ]
     },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: __dirname + '/src/public/js'
     },
     plugins: [
