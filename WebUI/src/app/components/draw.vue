@@ -171,13 +171,14 @@
                       return new Date(a.created) - new Date(b.created);
                     });
                     //console.log(LatestMoves);
-                    LatestMoves.map((LastItemAdded)=> {
+                    LatestMoves.map((LastItemAdded, inx)=> {
+                      console.log(inx);
                       var direction = LastItemAdded.move;
                       if (direction) {
                         setTimeout(()=>{
                           //console.log(direction);
                           window.JS_SNAKE.game.ChangeDirection(direction);
-                        }, 600);
+                        }, (inx + 5) * 100);
                       }
                     });
                   }
