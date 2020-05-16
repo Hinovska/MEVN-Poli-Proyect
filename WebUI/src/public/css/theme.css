@@ -104,3 +104,14 @@ table.table tbody tr td.dateContent{
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+canvas{
+  background-color: #f0f3f4;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid  #a6acaf;
+  border-radius: 5px;
+}

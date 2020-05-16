@@ -11,6 +11,7 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 
 module.exports = {
   entry: {
+    snake: __dirname + '/src/app/snake.js',
     index: __dirname + '/src/app/draw.js',
     grid: __dirname + '/src/app/grid.js'
   },

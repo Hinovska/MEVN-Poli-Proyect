@@ -22,7 +22,7 @@
         <path fill-rule="evenodd" d="M15.817.613A.5.5 0 0116 1v13a.5.5 0 01-.402.49l-5 1a.502.502 0 01-.196 0L5.5 14.51l-4.902.98A.5.5 0 010 15V2a.5.5 0 01.402-.49l5-1a.5.5 0 01.196 0l4.902.98 4.902-.98a.5.5 0 01.415.103zM10 2.41l-4-.8v11.98l4 .8V2.41zm1 11.98l4-.8V1.61l-4 .8v11.98zm-6-.8V1.61l-4 .8v11.98l4-.8z" clip-rule="evenodd"/>
       </svg>
       <h2>Prometheus - Track View</h2>
-      <p class="lead">Visualization of movements executed by cart using myoelectric signals.</p>
+      <p class="lead">Visualization of the road traveled by car using myoelectric signals.</p>
     </div>
     <div class="container">
       <div class="row pt-2">
@@ -48,6 +48,8 @@
                   </div>
                 </div>
               </transition>
+              <div id="canvascont" class="card-body">
+              </div>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -143,10 +145,12 @@
             //console.log(this.latestMoves.length);
             if (this.latestMoves.length > 0){
               let itemsAdded = 0;
+              let LatestMoves = new Array();
               moves.map((item) => {
                 if (!this.latestMoves.filter((s)=>{ return s._id == item._id} ).length > 0){
                   this.latestMoves.push(item);
                   itemsAdded += 1;
+                  LatestMoves.push(item);
                   //console.log(item);
                   //console.log(this.latestMoves);
                 }
@@ -157,6 +161,27 @@
                   return new Date(b.created) - new Date(a.created);
                 });
                 this.countBackCalls = this.limitBackgroundCalls;
+                if (typeof(window.JS_SNAKE) != "undefined"){
+                  if (window.JS_SNAKE.MoveEnabled == false){
+                    window.JS_SNAKE.MoveEnabled = true;
+                    window.JS_SNAKE.game.gameLoop();
+                  }
+                  if (typeof(LatestMoves) != "undefined" && LatestMoves.length > 0){
+                    LatestMoves.sort(function(a, b){
+                      return new Date(a.created) - new Date(b.created);
+                    });
+                    console.log(LatestMoves);
+                    LatestMoves.map((LastItemAdded)=> {
+                      var direction = LastItemAdded.move;
+                      if (direction) {
+                        setTimeout(()=>{
+                          console.log(direction);
+                          window.JS_SNAKE.game.ChangeDirection(direction);
+                        }, 600);
+                      }
+                    });
+                  }
+                }
                 this.move = new Move();
               }
             }
@@ -185,7 +210,14 @@
             this.getMoves();
           }, this.getInterval);
           this.countBackCalls -= 1;
-          console.log(this.countBackCalls);
+          //console.log(this.countBackCalls);
+        }
+        else{
+          if (typeof(window.JS_SNAKE) != "undefined"){
+            if (window.JS_SNAKE.MoveEnabled == true){
+              window.JS_SNAKE.MoveEnabled = false;
+            }
+          }
         }
       },
       activateSync(){
