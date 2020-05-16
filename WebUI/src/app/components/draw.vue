@@ -170,12 +170,12 @@
                     LatestMoves.sort(function(a, b){
                       return new Date(a.created) - new Date(b.created);
                     });
-                    console.log(LatestMoves);
+                    //console.log(LatestMoves);
                     LatestMoves.map((LastItemAdded)=> {
                       var direction = LastItemAdded.move;
                       if (direction) {
                         setTimeout(()=>{
-                          console.log(direction);
+                          //console.log(direction);
                           window.JS_SNAKE.game.ChangeDirection(direction);
                         }, 600);
                       }

@@ -39,7 +39,7 @@ function ModuleSnake (){
       canvas = $canvas;
       ctx = canvas.getContext("2d");
       score = 0;
-      frameLength = 500;
+      frameLength = 200;
     };
 
     function run() {
@@ -169,7 +169,7 @@ function ModuleSnake (){
       ChangeDirection : ChangeDirection
     };
   })();
-  
+
   self.apple = function () {
     var position = [6, 6];
     function draw(ctx) {
@@ -330,7 +330,9 @@ function ModuleSnake (){
         default:
           throw "Invalid direction";
       }
-
+      if (posArray.length <= 12){
+        posArray.push(nextPosition);
+      }
       previousPosArray = posArray.slice(); //save previous array
       posArray.unshift(nextPosition);
       if (isEatingApple(posArray[0], apple)) {
