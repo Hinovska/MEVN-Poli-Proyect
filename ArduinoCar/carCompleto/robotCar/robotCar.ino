@@ -164,7 +164,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   incoming.trim();
   Serial.println("Mensaje -> " + incoming);
 
-  
+ Serial.println((char)incoming[0]);
 /****** MOVIMIENTOS CARRO*******/
  switch ((char)incoming[0]) {
     case 'f': adelante(); break;
@@ -185,7 +185,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 /*********MOVIMIENTOS CARRITO************/
 
 void adelante() {
-
+ Serial.println("ADELANTE");
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
@@ -198,7 +198,7 @@ void adelante() {
 }
 
 void atras() {
-
+ Serial.println("ATRAS");
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
   analogWrite(ENA, speedCar);
@@ -212,7 +212,7 @@ void atras() {
 }
 
 void derecha() {
-
+ Serial.println("DERECHA");
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
   analogWrite(ENA, speedCar);
@@ -225,7 +225,7 @@ void derecha() {
 }
 
 void izquierda() {
-
+ Serial.println("IZQUIERDA");
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
@@ -290,7 +290,7 @@ void atrasIzq() {
 }
 
 void stopCarro() {
-
+ Serial.println("STOP");
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, LOW);
   analogWrite(ENA, speedCar);
